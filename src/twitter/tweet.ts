@@ -57,8 +57,24 @@ const tweet = async (tx: TransactionData) => {
 
         imageBuffer = await sharp(buffer).png().toBuffer();
     } else {
-        const buffer = await axios.get(tx.tokenData.image, { responseType: 'arraybuffer' });
-        imageBuffer = buffer.data;
+        try {
+            const buffer = await axios.get(tx.tokenData.image, { responseType: 'arraybuffer' });
+            imageBuffer = buffer.data;
+        } catch (e) {
+            const resp = await axios.get(
+                `https://api.opensea.io/api/v1/asset/${tx.contractAddress}/${tx.tokenId}/`,
+                {
+                    headers: {
+                        // @ts-ignore
+                        'X-API-KEY': process.env.OPENSEA_IMAGE_API_KEY
+                    }
+                }
+            );
+            const buffer = await axios.get(resp.data.image_url, {
+                responseType: 'arraybuffer'
+            });
+            imageBuffer = buffer.data;
+        }
     }
     // if image size exceeds 5MB, resize it
     if (imageBuffer.length > 5242880) {

@@ -55,6 +55,7 @@ async function main(contractAddress: string) {
                 console.log('Please enter the TOKEN_TYPE in (file:./.env)');
                 process.exit(1);
             }
+
             console.log(`Running test for tx: ${options.test}`);
             await runApp(options.test, CONTRACT_ADDRESS, contractData);
         } catch (error) {

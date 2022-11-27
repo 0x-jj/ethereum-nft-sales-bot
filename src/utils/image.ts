@@ -10,7 +10,7 @@ import type { NftTokenType } from 'alchemy-sdk';
 import { ABI, alchemy, IMAGE_SIZE } from '../config/setup.js';
 import JPEG from 'jpeg-js';
 
-Jimp.decoders['image/jpeg'] = (data: Buffer) => JPEG.decode(data, { maxMemoryUsageInMB: 1024 });
+Jimp.decoders['image/jpeg'] = (data: Buffer) => JPEG.decode(data, { maxMemoryUsageInMB: 8000 });
 
 const GIF_DURATION = 1500;
 const { width, height } = IMAGE_SIZE;
