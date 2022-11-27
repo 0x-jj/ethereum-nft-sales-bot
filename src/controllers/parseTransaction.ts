@@ -33,7 +33,8 @@ async function parseTransaction(
     transactionHash: string,
     contractAddress: string,
     contractData: ContractData
-) {
+) {        
+
     const receipt = await alchemy.core.getTransactionReceipt(transactionHash);
     const recipient = receipt ? receipt.to.toLowerCase() : '';
 
@@ -53,6 +54,7 @@ async function parseTransaction(
     }
 
     for (const log of receipt.logs) {
+
         const logAddress = log.address.toLowerCase();
         const logMarket = _.get(markets, logAddress);
 
@@ -90,7 +92,14 @@ async function parseTransaction(
                 const parseResult = parseBlur(tx, logMarket, decodedLogData);
 
                 if (parseResult === null) return null;
-            } else if (tx.marketList.length + 1 === tx.tokens.length) {
+            } else if (logAddress === '0x7f268357a8c2552623316e2562d90e642bb538e5') {
+                const price = Number(
+                    ethers.utils.formatUnits(decodedLogData.price, tx.currency.decimals)
+                  );
+                tx.totalPrice += price;
+                tx.marketList.push(logMarket);
+                tx.prices.push(formatPrice(price));
+            }  else if (tx.marketList.length + 1 === tx.tokens.length) {
                 const decodedPrice =
                     logMarket.name === 'x2y2' ? decodedLogData.amount : decodedLogData.price;
                 const price = Number(ethers.utils.formatUnits(decodedPrice, tx.currency.decimals));

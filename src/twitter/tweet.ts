@@ -100,21 +100,18 @@ Sweeper: ${tx.to}
 ${tx.market.accountPage}${tx.toAddr}${isX2Y2}
         `
                 : `
-From: ${tx.from}
-${tx.market.accountPage}${tx.fromAddr}${isX2Y2}
-                    
-To: ${tx.to}
-${tx.market.accountPage}${tx.toAddr}${isX2Y2}
+From: ${tx.from} ${tx.market.accountPage}${tx.fromAddr}${isX2Y2}           
+To: ${tx.to} ${tx.market.accountPage}${tx.toAddr}${isX2Y2}
         `;
 
         tweetContent = `
 ${
     tx.quantity > 1 ? `${tx.quantity} ${tx.contractName || tx.tokenName}` : tx.tokenName
-} sold for ${formatPrice(tx.totalPrice)} ETH ${tx.ethUsdValue} on ${tx.market.displayName}
+} sold for ${formatPrice(tx.totalPrice)}Ξ
 			
 ${field}
 			
-🔍 ${tx.market.site}${tx.contractAddress}/${tx.tokens[0]}	
+${tx.market.site}${tx.contractAddress}/${tx.tokens[0]}	
 			`;
     }
 
