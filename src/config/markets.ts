@@ -163,29 +163,65 @@ const markets: { [key: string]: Market } = {
             }
         ]
     },
-        // OpenSea Contract Address - Wyvern
-        '0x7f268357a8c2552623316e2562d90e642bb538e5': {
-            name: 'opensea',
-            displayName: 'OpenSea',
-            color: '#2484e4',
-            site: 'https://opensea.io/assets/',
-            accountPage: 'https://opensea.io/',
-            iconURL: 'https://pbs.twimg.com/profile_images/1533843334946508806/kleAruEh_400x400.png',
-            logDecoder: [
-                {
-                    type: 'bytes32',
-                    name: 'buyHash'
-                },
-                {
-                    type: 'bytes32',
-                    name: 'sellHash'
-                },
-                {
-                    type: 'uint256',
-                    name: 'price'
-                }
-            ]
-        },
+    // SuperRare
+    '0x6d7c44773c52d396f43c2d511b81aa168e9a7a42': {
+        name: 'superrare',
+        displayName: 'SuperRare',
+        color: '#2484e4',
+        site: 'https://opensea.io/assets/',
+        accountPage: 'https://opensea.io/',
+        iconURL:
+            'https://storage.googleapis.com/series-superrare-prod/0x2efcf25a94a520f2871357248e6547212ed65be3/SR_Abbrev.png',
+        logDecoder: [
+            {
+                name: '_contractAddress',
+                type: 'address'
+            },
+            {
+                name: '_bidder',
+                type: 'address'
+            },
+            {
+                name: '_seller',
+                type: 'address'
+            },
+            {
+                name: '_tokenId',
+                type: 'uint256'
+            },
+            {
+                name: '_currencyAddress',
+                type: 'address'
+            },
+            {
+                name: '_amount',
+                type: 'uint256'
+            }
+        ]
+    },
+    // OpenSea Contract Address - Wyvern
+    '0x7f268357a8c2552623316e2562d90e642bb538e5': {
+        name: 'opensea',
+        displayName: 'OpenSea',
+        color: '#2484e4',
+        site: 'https://opensea.io/assets/',
+        accountPage: 'https://opensea.io/',
+        iconURL: 'https://pbs.twimg.com/profile_images/1533843334946508806/kleAruEh_400x400.png',
+        logDecoder: [
+            {
+                type: 'bytes32',
+                name: 'buyHash'
+            },
+            {
+                type: 'bytes32',
+                name: 'sellHash'
+            },
+            {
+                type: 'uint256',
+                name: 'price'
+            }
+        ]
+    },
     // Opensea Seaport Protocol Contract Address
     '0x00000000006c3852cbef3e08e8df289169ede581': {
         name: 'opensea',

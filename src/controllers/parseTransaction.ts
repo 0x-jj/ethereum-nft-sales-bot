@@ -14,6 +14,7 @@ import { initializeTransactionData } from '../config/initialize.js';
 import Web3EthAbi from 'web3-eth-abi';
 import { alchemy } from '../config/setup.js';
 import { parseSudoswap } from './parseSudoswap.js';
+import SuperRareABI from '../abi/SuperRare.json' assert { type: 'json' };
 
 const isSeaport = (
     decodedLogData: DecodedLogData | SeaportOrder
@@ -33,8 +34,7 @@ async function parseTransaction(
     transactionHash: string,
     contractAddress: string,
     contractData: ContractData
-) {        
-
+) {
     const receipt = await alchemy.core.getTransactionReceipt(transactionHash);
     const recipient = receipt ? receipt.to.toLowerCase() : '';
 
@@ -54,7 +54,6 @@ async function parseTransaction(
     }
 
     for (const log of receipt.logs) {
-
         const logAddress = log.address.toLowerCase();
         const logMarket = _.get(markets, logAddress);
 
@@ -78,7 +77,10 @@ async function parseTransaction(
 
             if (marketLogDecoder === undefined) return null;
 
-            const decodedLogData = Web3EthAbi.decodeLog(marketLogDecoder, log.data, []);
+            const decodedLogData =
+                logAddress !== '0x6d7c44773c52d396f43c2d511b81aa168e9a7a42'
+                    ? Web3EthAbi.decodeLog(marketLogDecoder, log.data, [])
+                    : {};
 
             if (isSeaport(decodedLogData)) {
                 const parseResult = parseSeaport(tx, logMarket, decodedLogData);
@@ -95,11 +97,21 @@ async function parseTransaction(
             } else if (logAddress === '0x7f268357a8c2552623316e2562d90e642bb538e5') {
                 const price = Number(
                     ethers.utils.formatUnits(decodedLogData.price, tx.currency.decimals)
-                  );
+                );
                 tx.totalPrice += price;
                 tx.marketList.push(logMarket);
                 tx.prices.push(formatPrice(price));
-            }  else if (tx.marketList.length + 1 === tx.tokens.length) {
+            } else if (logAddress === '0x6d7c44773c52d396f43c2d511b81aa168e9a7a42') {
+                const iface = new ethers.utils.Interface(SuperRareABI);
+                const decodedSale = iface.parseLog(log);
+                const price = Number(
+                    // @ts-ignore
+                    ethers.utils.formatUnits(decodedSale.args._amount, tx.currency.decimals)
+                );
+                tx.totalPrice += price;
+                tx.marketList.push(logMarket);
+                tx.prices.push(formatPrice(price));
+            } else if (tx.marketList.length + 1 === tx.tokens.length) {
                 const decodedPrice =
                     logMarket.name === 'x2y2' ? decodedLogData.amount : decodedLogData.price;
                 const price = Number(ethers.utils.formatUnits(decodedPrice, tx.currency.decimals));

@@ -13,7 +13,9 @@ const saleEventTypes = [
     '0x68cd251d4d267c6e2034ff0088b990352b97b2002c0476587d0c4da889c11330', // TakerAsk (LooksRare)
     '0x9d9af8e38d66c62e2c12f0225249fd9d721c54b83f48d9352c97c6cacdcb6f31', // OrderFulfilled (Seaport)
     '0x8873f53f40d4865bac9c1e8998aef3351bb1ef3db1a6923ab09621cf1a6659a9', // swapEvent (NFT Trader)
-    '0x61cbb2a3dee0b6064c2e681aadd61677fb4ef319f0b547508d495626f5a62f64' // OrdersMatched (Blur)
+    '0x61cbb2a3dee0b6064c2e681aadd61677fb4ef319f0b547508d495626f5a62f64', // OrdersMatched (Blur)
+    '0xef4e2262a841641690bb931801dc0d1923e6b417cd217f91f8049d8aa9f5f086', // AuctionSettled (SuperRare)
+    '0x97c3d2068ce177bc33d84acecc45eededcf298c4a9d4340ae03d4afbb3993f7b' // AcceptOffer (SuperRare)
 ];
 
 export { transferEventTypes, saleEventTypes };

@@ -53,6 +53,7 @@ export type Market = {
     logDecoder?: {
         type: string;
         name: string;
+        indexed?: boolean;
         components?: {
             type: string;
             name: string;
@@ -135,6 +136,7 @@ export type Recipient =
     | 'sudoswap'
     | 'blur'
     | 'blurSwap'
+    | 'superrare'
     | 'unknown';
 
 export type TransactionData = {
