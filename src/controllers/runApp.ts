@@ -55,12 +55,12 @@ const runApp = async (
         }
     }
 
-    if (DISCORD_ENABLED && TWITTER_ENABLED && txData) {
+    if (DISCORD_ENABLED && TWITTER_ENABLED && txData && txData.totalPrice) {
         const tweetConfig = await sendEmbedMessage(txData);
         await tweet(tweetConfig);
-    } else if (DISCORD_ENABLED && txData) {
+    } else if (DISCORD_ENABLED && txData && txData.totalPrice) {
         await sendEmbedMessage(txData);
-    } else if (TWITTER_ENABLED && txData) {
+    } else if (TWITTER_ENABLED && txData && txData.totalPrice) {
         await tweet(txData);
     }
 };
